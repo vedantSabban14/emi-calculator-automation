@@ -13,6 +13,7 @@ public class BaseTest {
     protected WebDriverWait wait;
     protected static final String URL = "https://emicalculator.net/";
 
+//    Launch the Browser
     @BeforeMethod
     public void setUp() {
         driver = new ChromeDriver();
@@ -21,14 +22,15 @@ public class BaseTest {
         driver.manage().timeouts()
                 .implicitlyWait(Duration.ofSeconds(10));
         driver.get(URL);
-        System.out.println("✅ Browser launched!");
+        System.out.println("Browser launched!");
     }
 
+//    Close the Browser
     @AfterMethod
     public void tearDown() {
         if (driver != null) {
             driver.quit();
-            System.out.println("✅ Browser closed!");
+            System.out.println("Browser closed!");
         }
     }
 
