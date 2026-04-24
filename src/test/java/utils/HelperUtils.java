@@ -1,14 +1,12 @@
 package utils;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
+import java.security.Key;
 
 public class HelperUtils {
 
@@ -26,8 +24,10 @@ public class HelperUtils {
         WebElement element = wait.until(
             ExpectedConditions.visibilityOfElementLocated(locator)
         );
-        element.clear();
+        element.sendKeys(Keys.CONTROL+"a");
+        element.sendKeys(Keys.DELETE);
         element.sendKeys(text);
+        element.sendKeys(Keys.TAB);
     }
 
     // Click any button or element

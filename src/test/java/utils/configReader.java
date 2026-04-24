@@ -9,11 +9,10 @@ public class configReader{
     static{
         try {
             FileInputStream file = new FileInputStream(
-                    "src/main/resources/config.properties"
+                    "src/test/resources/config.properties"
             );
             prop.load(file);
             file.close();
-            System.out.println("Config file loaded successfully.");
         } catch (
                 IOException e) {
             System.out.println("ERROR: config.properties file not found.");
@@ -23,17 +22,5 @@ public class configReader{
 
     public static String getURL(){
         return prop.getProperty("url");
-    }
-
-    public static String getCarLoanAmount(){
-        return prop.getProperty("loanAmount");
-    }
-
-    public static String getInterestRate(){
-        return prop.getProperty("interestRate");
-    }
-
-    public static String getTenure(){
-        return prop.getProperty("tenure");
     }
 }

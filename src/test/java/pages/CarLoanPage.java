@@ -16,106 +16,64 @@ public class CarLoanPage {
     By carLoanAmount= By.xpath("//div[@class='input-group']/input[@id='loanamount']");
     By carLoanInterest= By.xpath("//div[@class='input-group']/input[@id='loaninterest']");
     By carLoanTenure= By.xpath("//div[@class='input-group']/input[@id='loanterm']");
-    By calculateBtn= By.xpath("//body");
+
+    // Result fields
+    private By emiResult         = By.xpath("//h4[normalize-space()='Loan EMI']/following-sibling::p/span");
+    private By totalInterest     = By.xpath("//h4[normalize-space()='Total Interest Payable']/following-sibling::p/span");
+    private By totalAmount       = By.xpath("//div[@id='emitotalamount']/p/span");
+
+    // Monthly table — Month 1 row
+    private By month1Principal   = By.xpath("//tr[@id='monthyear2026']/td/div/table/tbody/tr[1]/td[2]");
+    private By month1Interest    = By.xpath("//tr[@id='monthyear2026']/td/div/table/tbody/tr[1]/td[3]");
 
 
-    public void enterCarLoanAmount(String amount){
-        helper.clickElement(carLoanCategory);
-        helper.typeInBox(carLoanAmount,amount);
+//  Individual input actions
+    public void enterLoanAmount(String amount) {
+        driver.findElement(carLoanCategory).click();
+        helper.typeInBox(carLoanAmount, amount);
+        System.out.println("Loan amount entered : " + amount);
     }
 
-    public void enterCarLoanInterest(String interest){
-        helper.typeInBox(carLoanInterest,interest);
+    public void enterInterestRate(String rate) {
+        helper.typeInBox(carLoanInterest, rate);
+        System.out.println("Interest rate entered : " + rate);
     }
 
-    public void enterCarLoanTenure(String tenure){
-        helper.typeInBox(carLoanTenure,tenure);
-        helper.clickElement(calculateBtn);
-        System.out.println("Values Entered Successfully");
+    public void enterTenure(String tenure) {
+        helper.typeInBox(carLoanTenure, tenure);
+        System.out.println("Tenure entered : " + tenure + " Year");
     }
 
-    public String getLoanAmount(){
-        return driver.findElement(carLoanAmount).getText();
+    public void fillCarLoanForm(String amount, String rate, String tenure) {
+        enterLoanAmount(amount);
+        enterInterestRate(rate);
+        enterTenure(tenure);
     }
 
-    public String getLoanInterest(){
-        return driver.findElement(carLoanInterest).getText();
+// --- Getters for result values ---
+
+    public String getEMI() {
+        return helper.getText(emiResult);
     }
 
-    public String getLoanTenure(){
-        return driver.findElement(carLoanTenure).getText();
+    public String getTotalInterest() {
+        return helper.getText(totalInterest);
+    }
+
+    public String getTotalAmount() {
+        return helper.getText(totalAmount);
+    }
+
+//  Getters for Month 1 row (for W-14 later)
+    public String getMonth1Principal() {
+        helper.scrollToElement(month1Principal);
+        return helper.getText(month1Principal);
+    }
+
+    public String getMonth1Interest() {
+        helper.scrollToElement(month1Interest);
+        return helper.getText(month1Interest);
     }
 }
 
 
-//// Result fields
-//private By emiResult         = By.id("emi");
-//private By totalInterest     = By.id("totalinterest");
-//private By totalAmount       = By.id("totalpayable");
-//
-//// Monthly table — Month 1 row
-//private By month1Principal   = By.xpath("(//table[@id='emipaymenttable']//tbody//tr)[1]/td[2]");
-//private By month1Interest    = By.xpath("(//table[@id='emipaymenttable']//tbody//tr)[1]/td[3]");
-//
-//// --- Constructor ---
-//public CarLoanPage(WebDriver driver, WebDriverWait wait) {
-//    this.driver = driver;
-//    this.helper = new HelperUtils(driver, wait);
-//}
-//
-//// --- Individual input actions ---
-//
-//public void enterLoanAmount(String amount) {
-//    helper.typeInBox(loanAmountField, amount);
-//    System.out.println("Loan amount entered : " + amount);
-//}
-//
-//public void enterInterestRate(String rate) {
-//    helper.typeInBox(interestRateField, rate);
-//    System.out.println("Interest rate entered : " + rate);
-//}
-//
-//public void enterTenure(String tenure) {
-//    // Make sure 'Year' is selected before typing tenure
-//    helper.clickElement(tenureYearBtn);
-//    helper.typeInBox(tenureField, tenure);
-//    System.out.println("Tenure entered : " + tenure + " Year");
-//}
-//
-//// --- Combined action: fill entire form ---
-//public void fillCarLoanForm(String amount, String rate, String tenure) {
-//    enterLoanAmount(amount);
-//    enterInterestRate(rate);
-//    enterTenure(tenure);
-//
-//    // Click outside the input field to trigger recalculation
-//    // emicalculator.net auto-calculates, but tab-out ensures refresh
-//    helper.scrollDown(200);
-//}
-//
-//// --- Getters for result values ---
-//
-//public String getEMI() {
-//    return helper.getText(emiResult);
-//}
-//
-//public String getTotalInterest() {
-//    return helper.getText(totalInterest);
-//}
-//
-//public String getTotalAmount() {
-//    return helper.getText(totalAmount);
-//}
-//
-//// --- Getters for Month 1 row (for W-14 later) ---
-//
-//public String getMonth1Principal() {
-//    helper.scrollToElement(month1Principal);
-//    return helper.getText(month1Principal);
-//}
-//
-//public String getMonth1Interest() {
-//    helper.scrollToElement(month1Interest);
-//    return helper.getText(month1Interest);
-//}
-//}
