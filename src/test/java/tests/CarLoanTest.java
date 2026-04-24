@@ -64,6 +64,9 @@ public class CarLoanTest extends BaseTest {
                 "EMI validation failed for " + testCaseName);
 
         System.out.println(status + ": " + testCaseName);
+
+        System.out.println("Principal Amount for one month: "+carLoanPage.getMonth1Principal());
+        System.out.println("Interest Amount for one month: "+carLoanPage.getMonth1Interest());
     }
 
     private int cleanAndConvert(String text) {

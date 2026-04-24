@@ -65,13 +65,13 @@ public class CarLoanPage {
     }
 
 //  Getters for Month 1 row (for W-14 later)
-    public String getMonth1Principal() {
-        helper.scrollToElement(month1Principal);
+    public String getMonth1Principal(){
+        helper.scrollDown(1500);
+        driver.findElement(By.id("year2026")).click();
         return helper.getText(month1Principal);
     }
 
     public String getMonth1Interest() {
-        helper.scrollToElement(month1Interest);
         return helper.getText(month1Interest);
     }
 }
