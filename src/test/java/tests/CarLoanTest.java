@@ -16,7 +16,7 @@ public class CarLoanTest extends BaseTest {
     HelperUtils helper;
 
     // File path
-    private static final String EXCEL_PATH = "test-data/CarLoanTestData.xlsx";
+    private static final String EXCEL_PATH = "test-data/TestData.xlsx";
     private static final String SHEET_NAME = "Sheet1";
 
     @BeforeMethod
