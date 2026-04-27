@@ -20,30 +20,29 @@ public class HomeLoanPage {
     private By homeLoanMenuLink    = By.xpath("//a[contains(text(),'Home Loan EMI Calculator')]");
 
     // --- Home Loan Input Fields ---
-    private By homeValueField      = By.id("homevalue");
+    private By homeValueField      = By.id("homeprice");
     private By downPaymentField    = By.id("downpayment");
-    private By downPaymentPctBtn   = By.xpath("//span[@id='downpaymenttypebuttons']//button[text()='%']");
-    private By loanInsuranceField  = By.id("loaninsurance");
+    private By downPaymentPctBtn   = By.xpath("//label//input[@id='downpaymentpercentage']]");
+    private By loanInsuranceField  = By.id("homeloaninsuranceamount");
     private By interestRateField   = By.id("homeloaninterest");
-    private By tenureField         = By.id("loanterm");
-    private By tenureYearBtn       = By.xpath("//span[@id='loantermtypebuttons']//button[text()='Yr']");
+    private By tenureField         = By.id("homeloanterm");
+    private By tenureYearBtn       = By.xpath("//label//input[@id='homeloanyears']");
     private By loanFeesField       = By.id("loanfees");
-    private By loanFeesPctBtn      = By.xpath("//span[@id='loanfeestypebuttons']//button[text()='%']");
+    private By loanFeesPctBtn      = By.xpath("//input[@id='loanfeespercentage']");
 
     // --- Homeowner Expense Fields ---
     private By oneTimeExpensesField   = By.id("onetimeexpenses");
     private By propertyTaxesField     = By.id("propertytaxes");
     private By homeInsuranceField     = By.id("homeinsurance");
-    private By maintenanceField       = By.id("maintenance");
+    private By maintenanceField       = By.id("maintenanceexpenses");
 
     // --- Result Fields ---
-    private By loanAmountResult       = By.id("loanamount");
-    private By emiResult              = By.id("emi");
-    private By totalPaymentResult     = By.id("totalpayable");
+    private By emiResult              = By.id("monthlyprincipalandinterestdef");
+    private By totalPaymentResult     = By.id("monthlypayment");
 
     // --- Year-on-Year Table ---
-    private By yearlyTable            = By.id("emipaymentyearlysummary");
-    private By yearlyTableRows        = By.xpath("//table[@id='emipaymentyearlysummary']/tbody/tr");
+    private By yearlyTable            = By.xpath("//div[@class='homeloanemicalculatorcontainer']");
+    private By yearlyTableRows        = By.xpath("//div[@id='paymentschedule']/table/tbody/tr[@class='row no-margin yearlypaymentdetails']");
 
     // --- Constructor ---
     public HomeLoanPage(WebDriver driver, WebDriverWait wait) {
@@ -54,109 +53,61 @@ public class HomeLoanPage {
     // --- Navigate to Home Loan page from main menu ---
     public void navigateToHomeLoan() {
         // Some layouts show menu directly without click, others need menu open first
-        try {
-            helper.clickElement(menuButton);
-        } catch (Exception ignored) {
-            // menu already visible — skip
-        }
+        helper.clickElement(menuButton);
         helper.clickElement(homeLoanMenuLink);
         System.out.println("Navigated to Home Loan EMI Calculator.");
     }
 
     // --- Individual input methods ---
-
     public void enterHomeValue(String value) {
-        WebElement field = driver.findElement(homeValueField);
-        field.sendKeys(Keys.CONTROL + "a");
-        field.sendKeys(Keys.DELETE);
-        field.sendKeys(value);
-        field.sendKeys(Keys.TAB);
+       helper.typeInBox(homeValueField, value);
         System.out.println("Home value entered : " + value);
     }
 
     public void enterDownPayment(String percent) {
         // Make sure % toggle is selected (not ₹)
         helper.clickElement(downPaymentPctBtn);
-
-        WebElement field = driver.findElement(downPaymentField);
-        field.sendKeys(Keys.CONTROL + "a");
-        field.sendKeys(Keys.DELETE);
-        field.sendKeys(percent);
-        field.sendKeys(Keys.TAB);
+        helper.typeInBox(downPaymentField, percent);
         System.out.println("Down payment entered : " + percent + "%");
     }
 
     public void enterLoanInsurance(String value) {
-        WebElement field = driver.findElement(loanInsuranceField);
-        field.sendKeys(Keys.CONTROL + "a");
-        field.sendKeys(Keys.DELETE);
-        field.sendKeys(value);
-        field.sendKeys(Keys.TAB);
+        helper.typeInBox(loanInsuranceField, value);
         System.out.println("Loan insurance entered : " + value);
     }
 
     public void enterInterestRate(String rate) {
-        WebElement field = driver.findElement(interestRateField);
-        field.sendKeys(Keys.CONTROL + "a");
-        field.sendKeys(Keys.DELETE);
-        field.sendKeys(rate);
-        field.sendKeys(Keys.TAB);
+        helper.typeInBox(interestRateField, rate);
         System.out.println("Interest rate entered : " + rate);
     }
 
     public void enterTenure(String tenure) {
         // Make sure 'Yr' toggle is selected
         helper.clickElement(tenureYearBtn);
-
-        WebElement field = driver.findElement(tenureField);
-        field.sendKeys(Keys.CONTROL + "a");
-        field.sendKeys(Keys.DELETE);
-        field.sendKeys(tenure);
-        field.sendKeys(Keys.TAB);
+        helper.typeInBox(tenureField, tenure);
         System.out.println("Tenure entered : " + tenure + " Year");
     }
 
     public void enterLoanFees(String fees) {
         helper.clickElement(loanFeesPctBtn);
-
-        WebElement field = driver.findElement(loanFeesField);
-        field.sendKeys(Keys.CONTROL + "a");
-        field.sendKeys(Keys.DELETE);
-        field.sendKeys(fees);
-        field.sendKeys(Keys.TAB);
+        helper.typeInBox(loanFeesField, fees);
         System.out.println("Loan fees entered : " + fees + "%");
     }
 
     public void enterOneTimeExpenses(String value) {
-        WebElement field = driver.findElement(oneTimeExpensesField);
-        field.sendKeys(Keys.CONTROL + "a");
-        field.sendKeys(Keys.DELETE);
-        field.sendKeys(value);
-        field.sendKeys(Keys.TAB);
+        helper.typeInBox(oneTimeExpensesField, value);
     }
 
     public void enterPropertyTaxes(String value) {
-        WebElement field = driver.findElement(propertyTaxesField);
-        field.sendKeys(Keys.CONTROL + "a");
-        field.sendKeys(Keys.DELETE);
-        field.sendKeys(value);
-        field.sendKeys(Keys.TAB);
+        helper.typeInBox(propertyTaxesField, value);
     }
 
     public void enterHomeInsurance(String value) {
-        WebElement field = driver.findElement(homeInsuranceField);
-        field.sendKeys(Keys.CONTROL + "a");
-        field.sendKeys(Keys.DELETE);
-        field.sendKeys(value);
-        field.sendKeys(Keys.TAB);
+        helper.typeInBox(homeInsuranceField, value);
     }
 
     public void enterMaintenance(String value) {
-        WebElement field = driver.findElement(maintenanceField);
-        field.sendKeys(Keys.CONTROL + "a");
-        field.sendKeys(Keys.DELETE);
-        field.sendKeys(value);
-        field.sendKeys(Keys.TAB);
+        helper.typeInBox(maintenanceField, value);
     }
 
     // --- Combined: fill entire form with one method call ---
@@ -182,10 +133,6 @@ public class HomeLoanPage {
     }
 
     // --- Getters for result values ---
-
-    public String getLoanAmount() {
-        return helper.getText(loanAmountResult);
-    }
 
     public String getEMI() {
         return helper.getText(emiResult);
