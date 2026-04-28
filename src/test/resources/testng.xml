@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="EMI Calculator Automation Suite" verbose="1">
+
+    <!-- Browser parameter shared across all tests -->
+    <parameter name="browser" value="chrome"/>
+
+    <!-- Test 1: Car Loan EMI Validation (Week 1 - completed) -->
+    <test name="Car Loan Tests">
+        <classes>
+            <class name="tests.CarLoanTest"/>
+        </classes>
+    </test>
+
+    <!-- Test 2: Home Loan EMI Validation + Year-on-Year Excel Export (Week 2) -->
+    <test name="Home Loan Tests">
+        <classes>
+            <class name="tests.HomeLoanTest"/>
+        </classes>
+    </test>
+
+    <!-- Test 3: Loan Calculator UI Validations - All 3 Tabs (Week 2) -->
+    <test name="Loan Calculator UI Tests">
+        <classes>
+            <class name="tests.LoanCalculatorUITest"/>
+        </classes>
+    </test>
+
+</suite>
