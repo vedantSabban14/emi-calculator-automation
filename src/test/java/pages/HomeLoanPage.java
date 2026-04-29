@@ -52,7 +52,6 @@ public class HomeLoanPage {
 
     // --- Navigate to Home Loan page from main menu ---
     public void navigateToHomeLoan() {
-        // Some layouts show menu directly without click, others need menu open first
         helper.clickElement(menuButton);
         helper.clickElement(homeLoanMenuLink);
         System.out.println("Navigated to Home Loan EMI Calculator.");
@@ -65,7 +64,6 @@ public class HomeLoanPage {
     }
 
     public void enterDownPayment(String percent) {
-        // Make sure % toggle is selected (not ₹)
         helper.clickElement(downPaymentPctBtn);
         helper.typeInBox(downPaymentField, percent);
         System.out.println("Down payment entered : " + percent + "%");
@@ -82,7 +80,6 @@ public class HomeLoanPage {
     }
 
     public void enterTenure(String tenure) {
-        // Make sure 'Yr' toggle is selected
         helper.clickElement(tenureYearBtn);
         helper.typeInBox(tenureField, tenure);
         System.out.println("Tenure entered : " + tenure + " Year");
@@ -110,7 +107,6 @@ public class HomeLoanPage {
         helper.typeInBox(maintenanceField, value);
     }
 
-    // --- Combined: fill entire form with one method call ---
     public void fillHomeLoanForm(String homeValue, String downPayment, String loanInsurance,
                                  String interestRate, String tenure, String loanFees,
                                  String oneTimeExpenses, String propertyTaxes,
@@ -127,7 +123,6 @@ public class HomeLoanPage {
         enterHomeInsurance(homeInsurance);
         enterMaintenance(maintenance);
 
-        // Wait briefly for site's JS to recalculate
         helper.scrollDown(200);
         try { Thread.sleep(2000); } catch (InterruptedException e) {}
     }
