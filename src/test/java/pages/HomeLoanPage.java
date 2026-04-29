@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.HelperUtils;
 
@@ -13,22 +14,23 @@ import java.util.List;
 public class HomeLoanPage {
 
     private WebDriver driver;
+    private WebDriverWait wait;
     private HelperUtils helper;
 
     // --- Menu Navigation ---
-    private By menuButton          = By.xpath("//button[@class='navbar-toggler']");
+    private By menuButton          = By.xpath("//a[@title='Loan Calculators & Widgets']");
     private By homeLoanMenuLink    = By.xpath("//a[contains(text(),'Home Loan EMI Calculator')]");
 
     // --- Home Loan Input Fields ---
     private By homeValueField      = By.id("homeprice");
     private By downPaymentField    = By.id("downpayment");
-    private By downPaymentPctBtn   = By.xpath("//label//input[@id='downpaymentpercentage']]");
+    private By downPaymentPctBtn = By.xpath("//label[input[@id='downpaymentpercentage']]");
     private By loanInsuranceField  = By.id("homeloaninsuranceamount");
     private By interestRateField   = By.id("homeloaninterest");
     private By tenureField         = By.id("homeloanterm");
-    private By tenureYearBtn       = By.xpath("//label//input[@id='homeloanyears']");
+    private By tenureYearBtn       = By.xpath("//label[input[@id='homeloanyears']]");
     private By loanFeesField       = By.id("loanfees");
-    private By loanFeesPctBtn      = By.xpath("//input[@id='loanfeespercentage']");
+    private By loanFeesPctBtn      = By.xpath("//label[input[@id='loanfeespercentage']]");
 
     // --- Homeowner Expense Fields ---
     private By oneTimeExpensesField   = By.id("onetimeexpenses");
@@ -37,7 +39,7 @@ public class HomeLoanPage {
     private By maintenanceField       = By.id("maintenanceexpenses");
 
     // --- Result Fields ---
-    private By loanAmountResult = By.id("//input[@id='homeloanamount']");
+    private By loanAmountResult = By.xpath("//input[@id='homeloanamount']");
     private By emiResult              = By.id("monthlyprincipalandinterestdef");
     private By totalPaymentResult     = By.id("monthlypayment");
 
@@ -48,6 +50,7 @@ public class HomeLoanPage {
     // --- Constructor ---
     public HomeLoanPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
+        this.wait = wait;
         this.helper = new HelperUtils(driver, wait);
     }
 

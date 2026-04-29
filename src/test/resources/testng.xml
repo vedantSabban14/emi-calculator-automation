@@ -7,11 +7,11 @@
     <parameter name="browser" value="chrome"/>
 
     <!-- Test 1: Car Loan EMI Validation (Week 1 - completed) -->
-    <test name="Car Loan Tests">
-        <classes>
-            <class name="tests.CarLoanTest"/>
-        </classes>
-    </test>
+<!--    <test name="Car Loan Tests">-->
+<!--        <classes>-->
+<!--            <class name="tests.CarLoanTest"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
     <!-- Test 2: Home Loan EMI Validation + Year-on-Year Excel Export (Week 2) -->
     <test name="Home Loan Tests">

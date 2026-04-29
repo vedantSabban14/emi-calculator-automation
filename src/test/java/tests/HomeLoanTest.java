@@ -10,12 +10,14 @@ import utils.EMICalculator;
 import utils.ExcelUtils;
 import utils.HelperUtils;
 
+import java.util.List;
+
 public class HomeLoanTest extends BaseTest {
 
     HomeLoanPage homeLoanPage;
     HelperUtils helper;
 
-    private static final String EXCEL_PATH = "test-data/LoanTestData.xlsx";
+    private static final String EXCEL_PATH = "test-data/TestData.xlsx";
     private static final String SHEET_NAME = "HomeLoan";
 
     // ±100 tolerance — Home Loan involves more rounding than Car Loan
@@ -95,6 +97,13 @@ public class HomeLoanTest extends BaseTest {
             status
         );
 
+        // --- Step 9: Export year-on-year data to Excel ---
+        List<String[]> yearlyData = homeLoanPage.getYearlyTableData();
+
+        String yearlyOutputPath = "test-output/excel/HomeLoan_Yearly_"
+                + testCaseName + ".xlsx";
+
+        ExcelUtils.exportYearlyDataToExcel(yearlyData, yearlyOutputPath);
 
         // --- Step 8: TestNG assertion ---
         Assert.assertEquals(status, "PASS",
