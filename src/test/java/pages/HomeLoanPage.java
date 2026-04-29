@@ -37,6 +37,7 @@ public class HomeLoanPage {
     private By maintenanceField       = By.id("maintenanceexpenses");
 
     // --- Result Fields ---
+    private By loanAmountResult = By.id("//input[@id='homeloanamount']");
     private By emiResult              = By.id("monthlyprincipalandinterestdef");
     private By totalPaymentResult     = By.id("monthlypayment");
 
@@ -129,6 +130,7 @@ public class HomeLoanPage {
 
     // --- Getters for result values ---
 
+    public String getLoanAmount(){return helper.getText(loanAmountResult);}
     public String getEMI() {
         return helper.getText(emiResult);
     }

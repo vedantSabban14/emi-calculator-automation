@@ -95,8 +95,6 @@ public class HomeLoanTest extends BaseTest {
             status
         );
 
-        // --- Step 7: Take screenshot ---
-        helper.takeScreenshot(testCaseName);
 
         // --- Step 8: TestNG assertion ---
         Assert.assertEquals(status, "PASS",
