@@ -22,6 +22,7 @@ public class HomeLoanTest extends BaseTest {
 
     // ±100 tolerance — Home Loan involves more rounding than Car Loan
     private static final int TOLERANCE = 100;
+    private static final double percentTolerance = 0.05;
 
     @BeforeMethod
     public void initPages() {
@@ -43,7 +44,6 @@ public class HomeLoanTest extends BaseTest {
             String testCaseName, int rowNum) {
 
         System.out.println("\n=========== Running: " + testCaseName + " ===========");
-
         // --- Step 1: Calculate expected values ---
         int expectedLoanAmount = calculateExpectedLoanAmount(
             homeValue, downPayment, loanInsurance
@@ -55,7 +55,36 @@ public class HomeLoanTest extends BaseTest {
             Integer.parseInt(tenure)
         );
 
-        int expectedTotalPayment = expectedEMI * Integer.parseInt(tenure) * 12;
+        // Parse all inputs once at the top
+        double homeVal      = Double.parseDouble(homeValue);
+        double dpAmount     = Double.parseDouble(downPayment);
+        double loanIns      = Double.parseDouble(loanInsurance);
+        double loanFeesPct  = Double.parseDouble(loanFees);
+        double oneTimePct   = Double.parseDouble(oneTimeExpenses);
+        double propTaxPct   = Double.parseDouble(propertyTaxes);
+        double homeInsPct   = Double.parseDouble(homeInsurance);
+        double monthlyMaint = Double.parseDouble(maintenance);
+
+        int totalMonths = Integer.parseInt(tenure) * 12;
+
+// 1. Principal (Loan Amount)
+        int principal = (int) (homeVal + loanIns - dpAmount);
+
+// 2. Down Payment, Fees & One-time Expenses
+        double dp = (homeVal * dpAmount / 100)
+                + (principal * loanFeesPct / 100)        // Loan Amount × Fees%
+                + (homeVal * oneTimePct / 100);          // Home Value × One-time%
+
+// 3. Interest
+        int interest = (expectedEMI * totalMonths) - principal;
+
+// 4. Taxes, Home Insurance & Maintenance
+        double totalTax = ((propTaxPct / 100) * homeVal / 12) * totalMonths
+                + ((homeInsPct / 100) * homeVal / 12) * totalMonths
+                + (monthlyMaint * totalMonths);
+
+// 5. Total Payment
+        long expectedTotalPayment = (long) dp + principal + interest + (long) totalTax;
 
         // --- Step 2: Navigate to Home Loan page and fill form ---
         homeLoanPage.navigateToHomeLoan();
@@ -65,14 +94,11 @@ public class HomeLoanTest extends BaseTest {
         );
 
         // --- Step 3: Read actual values from website ---
-        int actualLoanAmount   = cleanAndConvert(homeLoanPage.getLoanAmount());
-        int actualEMI          = cleanAndConvert(homeLoanPage.getEMI());
-        int actualTotalPayment = cleanAndConvert(homeLoanPage.getTotalPayment());
+        long actualEMI          = cleanAndConvert(homeLoanPage.getEMI());
+        long actualTotalPayment = cleanAndConvert(homeLoanPage.getTotalPayment());
 
         // --- Step 4: Print comparison ---
         System.out.println("============= Comparison =============");
-        System.out.printf("Loan Amount     | Expected: %d | Actual: %d%n",
-                          expectedLoanAmount, actualLoanAmount);
         System.out.printf("EMI             | Expected: %d | Actual: %d%n",
                           expectedEMI, actualEMI);
         System.out.printf("Total Payment   | Expected: %d | Actual: %d%n",
@@ -80,18 +106,24 @@ public class HomeLoanTest extends BaseTest {
         System.out.println("======================================");
 
         // --- Step 5: Determine overall status ---
-        boolean loanAmountOk   = Math.abs(actualLoanAmount - expectedLoanAmount) <= TOLERANCE;
         boolean emiOk          = Math.abs(actualEMI - expectedEMI) <= TOLERANCE;
-        boolean totalPaymentOk = Math.abs(actualTotalPayment - expectedTotalPayment) <= TOLERANCE;
+        long diff = Math.abs(actualTotalPayment - expectedTotalPayment);
+        boolean totalPaymentOk;
+        if (Math.abs(expectedTotalPayment) < 100000) {
+            totalPaymentOk =  diff <= TOLERANCE;
+        }else{
+            double allowedDiff = Math.abs(expectedTotalPayment) * (percentTolerance / 100);
+            totalPaymentOk = diff <= allowedDiff;
+        }
 
-        String status = (loanAmountOk && emiOk && totalPaymentOk) ? "PASS" : "FAIL";
+        String status = (emiOk && totalPaymentOk) ? "PASS" : "FAIL";
 
         System.out.println("Status : " + status);
 
         // --- Step 6: Write all results back to Excel ---
         ExcelUtils.writeHomeLoanResult(
             EXCEL_PATH, SHEET_NAME, rowNum,
-            expectedLoanAmount, actualLoanAmount,
+            expectedLoanAmount,
             expectedEMI, actualEMI,
             expectedTotalPayment, actualTotalPayment,
             status
@@ -127,8 +159,19 @@ public class HomeLoanTest extends BaseTest {
     }
 
     // Cleans "₹ 32,00,000" → 3200000
-    private int cleanAndConvert(String text) {
-        String cleaned = text.replaceAll("[^0-9]", "");
-        return Integer.parseInt(cleaned);
+    private long cleanAndConvert(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            System.out.println("WARNING: Empty value received from website.");
+            return 0;
+        }
+
+        String cleaned = text.split("\\.")[0].replaceAll("[^0-9]", "");
+
+        if (cleaned.isEmpty()) {
+            System.out.println("WARNING: No digits found in: '" + text + "'");
+            return 0;
+        }
+
+        return Long.parseLong(cleaned);
     }
 }

@@ -146,9 +146,9 @@ public class ExcelUtils {
 
     // === WRITE Home Loan results (6 result columns + status + time) ===
     public static void writeHomeLoanResult(String filePath, String sheetName, int rowNum,
-                                           int expectedLoanAmount, int actualLoanAmount,
-                                           int expectedEMI, int actualEMI,
-                                           int expectedTotalPayment, int actualTotalPayment,
+                                           int expectedLoanAmount,
+                                           int expectedEMI, long actualEMI,
+                                           long expectedTotalPayment, long actualTotalPayment,
                                            String status) {
         try (FileInputStream fis = new FileInputStream(filePath);
              Workbook workbook = new XSSFWorkbook(fis)) {
@@ -157,14 +157,12 @@ public class ExcelUtils {
             Row row = sheet.getRow(rowNum);
 
             // Columns 11–18: Expected/Actual Loan Amount, EMI, Total Payment, Status, Time
-            getOrCreateCell(row, 11).setCellValue(expectedLoanAmount);
-            getOrCreateCell(row, 12).setCellValue(actualLoanAmount);
-            getOrCreateCell(row, 13).setCellValue(expectedEMI);
-            getOrCreateCell(row, 14).setCellValue(actualEMI);
-            getOrCreateCell(row, 15).setCellValue(expectedTotalPayment);
-            getOrCreateCell(row, 16).setCellValue(actualTotalPayment);
+            getOrCreateCell(row, 11).setCellValue(expectedEMI);
+            getOrCreateCell(row, 12).setCellValue(actualEMI);
+            getOrCreateCell(row, 13).setCellValue(expectedTotalPayment);
+            getOrCreateCell(row, 14).setCellValue(actualTotalPayment);
 
-            Cell statusCell = getOrCreateCell(row, 17);
+            Cell statusCell = getOrCreateCell(row, 15);
             statusCell.setCellValue(status);
 
             // Apply green/red color to Status cell

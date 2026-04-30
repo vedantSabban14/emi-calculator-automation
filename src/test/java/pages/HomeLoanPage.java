@@ -39,9 +39,8 @@ public class HomeLoanPage {
     private By maintenanceField       = By.id("maintenanceexpenses");
 
     // --- Result Fields ---
-    private By loanAmountResult = By.xpath("//input[@id='homeloanamount']");
     private By emiResult              = By.id("monthlyprincipalandinterestdef");
-    private By totalPaymentResult     = By.id("monthlypayment");
+    private By totalPaymentResult     = By.id("totalpayment");
 
     // --- Year-on-Year Table ---
     private By yearlyTable            = By.xpath("//div[@class='homeloanemicalculatorcontainer']");
@@ -133,7 +132,6 @@ public class HomeLoanPage {
 
     // --- Getters for result values ---
 
-    public String getLoanAmount(){return helper.getText(loanAmountResult);}
     public String getEMI() {
         return helper.getText(emiResult);
     }
@@ -151,6 +149,11 @@ public class HomeLoanPage {
 
         List<WebElement> rows = driver.findElements(yearlyTableRows);
         List<String[]> data = new ArrayList<>();
+
+        data.add(new String[]{
+                "Year", "Principal (A)", "Interest (B)","Taxes, Home Insurance & Maintenance (C)",
+                "Total Payment (A+B+C)", "Balance", "Loan Paid To Date"
+        });
 
         for (WebElement row : rows) {
             List<WebElement> cells = row.findElements(By.tagName("td"));
