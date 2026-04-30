@@ -144,6 +144,57 @@ public class ExcelUtils {
         return dataList.toArray(new Object[0][]);
     }
 
+    public static void exportYearlyDataToExcel(List<String[]> data, String outputFilePath) {
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Yearly Schedule");
+            CellStyle headerStyle = workbook.createCellStyle();
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setColor(IndexedColors.WHITE.getIndex());
+            headerStyle.setFont(headerFont);
+            headerStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            headerStyle.setAlignment(HorizontalAlignment.CENTER);
+
+            // Loop through each row in the list
+            for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
+                Row row = sheet.createRow(rowIndex);
+                String[] rowData = data.get(rowIndex);
+
+                for (int colIndex = 0; colIndex < rowData.length; colIndex++) {
+                    Cell cell = row.createCell(colIndex);
+                    cell.setCellValue(rowData[colIndex]);
+
+                    if (rowIndex == 0) {
+                        cell.setCellStyle(headerStyle);
+                    }
+                }
+            }
+
+            if (!data.isEmpty()) {
+                for (int i = 0; i < data.get(0).length; i++) {
+                    sheet.autoSizeColumn(i);
+                }
+            }
+
+            // Make sure the output folder exists
+            File file = new File(outputFilePath);
+            file.getParentFile().mkdirs();
+
+            // Save the file
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                workbook.write(fos);
+            }
+
+            System.out.println("Yearly data exported to: " + outputFilePath);
+            System.out.println("Total rows written: " + data.size());
+
+        } catch (IOException e) {
+            System.out.println("ERROR: Could not export yearly data to Excel.");
+            e.printStackTrace();
+        }
+    }
+
     // === WRITE Home Loan results (6 result columns + status + time) ===
     public static void writeHomeLoanResult(String filePath, String sheetName, int rowNum,
                                            int expectedLoanAmount,
@@ -189,59 +240,6 @@ public class ExcelUtils {
 
         } catch (IOException e) {
             System.out.println("ERROR: Could not write Home Loan result. Is Excel file open?");
-            e.printStackTrace();
-        }
-    }
-
-    public static void exportYearlyDataToExcel(List<String[]> data, String outputFilePath) {
-        try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("Yearly Schedule");
-            CellStyle headerStyle = workbook.createCellStyle();
-            Font headerFont = workbook.createFont();
-            headerFont.setBold(true);
-            headerFont.setColor(IndexedColors.WHITE.getIndex());
-            headerStyle.setFont(headerFont);
-            headerStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
-            headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            headerStyle.setAlignment(HorizontalAlignment.CENTER);
-
-            // Loop through each row in the list
-            for (int rowIndex = 0; rowIndex < data.size(); rowIndex++) {
-                Row row = sheet.createRow(rowIndex);
-                String[] rowData = data.get(rowIndex);
-
-                for (int colIndex = 0; colIndex < rowData.length; colIndex++) {
-                    Cell cell = row.createCell(colIndex);
-                    cell.setCellValue(rowData[colIndex]);
-
-                    // Apply bold header style only for first row
-                    if (rowIndex == 0) {
-                        cell.setCellStyle(headerStyle);
-                    }
-                }
-            }
-
-            // Auto-fit each column to its content
-            if (!data.isEmpty()) {
-                for (int i = 0; i < data.get(0).length; i++) {
-                    sheet.autoSizeColumn(i);
-                }
-            }
-
-            // Make sure the output folder exists
-            File file = new File(outputFilePath);
-            file.getParentFile().mkdirs();
-
-            // Save the file
-            try (FileOutputStream fos = new FileOutputStream(file)) {
-                workbook.write(fos);
-            }
-
-            System.out.println("Yearly data exported to: " + outputFilePath);
-            System.out.println("Total rows written: " + data.size());
-
-        } catch (IOException e) {
-            System.out.println("ERROR: Could not export yearly data to Excel.");
             e.printStackTrace();
         }
     }
