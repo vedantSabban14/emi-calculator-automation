@@ -54,4 +54,11 @@ public class HelperUtils {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy(0," + pixels + ")");
     }
+
+    public void jsClick(By locator) {
+        WebElement element = driver.findElement(locator);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", element);
+        System.out.println("JS click performed.");
+    }
 }
