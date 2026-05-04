@@ -64,6 +64,10 @@ public class CarLoanPage {
         return helper.getText(totalAmount);
     }
 
+    public String getCarLoanAmount(){return helper.getText(carLoanAmount);}
+
+    public String getCarLoanInterest(){return helper.getText(carLoanInterest);}
+
 //  Getters for Month 1 row (for W-14 later)
     public String getMonth1Principal(){
         helper.scrollDown(1500);
