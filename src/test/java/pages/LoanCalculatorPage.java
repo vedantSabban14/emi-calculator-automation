@@ -22,7 +22,7 @@ public class LoanCalculatorPage {
     private static final double STEP_FEES         = 500;
 
     //   MENU NAVIGATION
-    private By menuButton          = By.xpath("//button[@class='navbar-toggler']");
+    private By menuButton          = By.xpath("//a[@title='Loan Calculators & Widgets']");
     private By loanCalculatorMenu  = By.xpath("//a[@title='Loan Calculator']");
 
     //   TAB BUTTONS — actual IDs from page source
