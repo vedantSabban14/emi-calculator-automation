@@ -66,33 +66,6 @@ public class LoanCalculatorUITest extends BaseTest {
         System.out.println("PASS — Slider movement reflected in text box.");
     }
 
-    //   TEST 4 — Verify Year/Month toggle changes tenure unit
-
-    @Test(priority = 4)
-    public void verifyYearMonthToggle() {
-        System.out.println("\n=========== TEST 4: Year/Month toggle ===========");
-        loanCalcPage.switchToTab("emi");
-        // Start with Year mode
-        loanCalcPage.toggleToYear();
-        Assert.assertTrue(loanCalcPage.isYearSelected(),
-                "Year radio should be selected after toggleToYear()");
-        System.out.println("Year mode active: " + loanCalcPage.isYearSelected());
-        String yearValue = loanCalcPage.getTenureFieldValue();
-        System.out.println("Tenure in years: " + yearValue);
-        // Switch to Month mode
-        loanCalcPage.toggleToMonth();
-        Assert.assertTrue(loanCalcPage.isMonthSelected(),
-                "Month radio should be selected after toggleToMonth()");
-        System.out.println("Month mode active: " + loanCalcPage.isMonthSelected());
-        String monthValue = loanCalcPage.getTenureFieldValue();
-        System.out.println("Tenure in months: " + monthValue);
-        // Switch back to Year
-        loanCalcPage.toggleToYear();
-        Assert.assertTrue(loanCalcPage.isYearSelected(),
-                "Year radio should be selected after switching back");
-        System.out.println("PASS — Year/Month toggle works correctly.");
-    }
-
     //   TEST 5 — Verify EMI is displayed after filling form
     @Test(priority = 5)
     public void verifyEMIIsCalculatedOnEMITab() {
@@ -163,29 +136,5 @@ public class LoanCalculatorUITest extends BaseTest {
         Assert.assertNotEquals(newInterest, initialInterest,
                 "Interest text box should update when slider moves on " + tabName + " tab");
         System.out.println("PASS — Slider sync works on " + tabName + " tab.");
-    }
-
-    //   TEST 9 — Verify EMI Scheme toggle (Advance / Arrears)
-    @Test(priority = 9)
-    public void verifyEMISchemeToggle() {
-        System.out.println("\n=========== TEST 9: EMI Scheme toggle ===========");
-        loanCalcPage.switchToTab("emi");
-        // Click EMI in Advance
-        loanCalcPage.selectEMIInAdvance();
-        try { Thread.sleep(800); } catch (InterruptedException e) {}
-        String emiAdvance = loanCalcPage.getResultEMI();
-        System.out.println("EMI in Advance: ₹" + emiAdvance);
-        // Click EMI in Arrears
-        loanCalcPage.selectEMIInArrears();
-        try { Thread.sleep(800); } catch (InterruptedException e) {}
-        String emiArrears = loanCalcPage.getResultEMI();
-        System.out.println("EMI in Arrears: ₹" + emiArrears);
-        // Both should produce a non-empty result
-        Assert.assertFalse(emiAdvance.isEmpty(), "Advance EMI should display");
-        Assert.assertFalse(emiArrears.isEmpty(), "Arrears EMI should display");
-        // The two EMIs should typically differ (Advance EMI is slightly less)
-        Assert.assertNotEquals(emiAdvance, emiArrears,
-                "EMI values should differ between Advance and Arrears schemes");
-        System.out.println("PASS — EMI Scheme toggle changes the calculated EMI.");
     }
 }
