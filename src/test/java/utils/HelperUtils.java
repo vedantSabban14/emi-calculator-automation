@@ -1,8 +1,12 @@
 package utils;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.io.File;
+import java.io.IOException;
 
 public class HelperUtils {
 
@@ -60,5 +64,29 @@ public class HelperUtils {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", element);
         System.out.println("JS click performed.");
+    }
+
+    public void takeScreenshot(String testName) {
+        try {
+            String folderPath = "test-output/screenshots/";
+            File folder = new File(folderPath);
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+            File source = ((TakesScreenshot) driver)
+                    .getScreenshotAs(OutputType.FILE);
+
+            File destination = new File(folderPath);
+            FileUtils.copyFile(source, destination);
+
+            System.out.println("Screenshot saved : " + folderPath);
+
+        } catch (IOException e) {
+            System.out.println("ERROR: Could not save screenshot for " + testName);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("ERROR: Unexpected error while taking screenshot.");
+            e.printStackTrace();
+        }
     }
 }

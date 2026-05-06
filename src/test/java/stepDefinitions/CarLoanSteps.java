@@ -76,7 +76,7 @@ public class CarLoanSteps {
 
         boolean isMatch = Math.abs(actualEMI - expectedEMI) <= TOLERANCE;
 
-//        helper.takeScreenshot(testName);
+        helper.takeScreenshot(testName);
 
         Assert.assertTrue(isMatch,
                 testName + " failed. Expected: " + expectedEMI + ", Actual: " + actualEMI);

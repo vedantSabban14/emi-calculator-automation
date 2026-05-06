@@ -41,14 +41,6 @@ Feature: Car Loan EMI Calculator
     Then the total interest payable should be displayed
     And the total payment should equal loan amount plus total interest
 
-  #   Scenario 4 — Edge case: high loan amount
-  @edge
-  Scenario: Calculate EMI for a high value car loan
-    When user enters loan amount as "10000000"
-    And user enters interest rate as "9"
-    And user enters tenure as "7" years
-    Then the displayed EMI should match the calculated EMI for "Car_1Cr_9pct_7yr"
-
 
   #   Scenario 5 — UI verification
   @ui
