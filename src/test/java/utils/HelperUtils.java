@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class HelperUtils {
 
@@ -68,18 +70,26 @@ public class HelperUtils {
 
     public void takeScreenshot(String testName) {
         try {
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+
+            String safeName = testName.replaceAll("[^a-zA-Z0-9_-]", "_");
+
             String folderPath = "test-output/screenshots/";
+            String fileName   = safeName + "_" + timestamp + ".png";
+            String fullPath   = folderPath + fileName;
+
             File folder = new File(folderPath);
             if (!folder.exists()) {
                 folder.mkdirs();
             }
+
             File source = ((TakesScreenshot) driver)
                     .getScreenshotAs(OutputType.FILE);
 
-            File destination = new File(folderPath);
+            File destination = new File(fullPath);
             FileUtils.copyFile(source, destination);
 
-            System.out.println("Screenshot saved : " + folderPath);
+            System.out.println("Screenshot saved : " + fullPath);
 
         } catch (IOException e) {
             System.out.println("ERROR: Could not save screenshot for " + testName);
