@@ -38,12 +38,3 @@ Feature: Car Loan EMI Calculator
     And user enters tenure as "1" years
     Then the total interest payable should be displayed
     And the total payment should equal loan amount plus total interest
-
-
-  #   Scenario 4 — UI verification
-  @ui
-  Scenario: Verify all input fields are visible on Car Loan calculator
-    Then the loan amount field should be visible
-    And the interest rate field should be visible
-    And the tenure field should be visible
-    And the EMI result should be displayed

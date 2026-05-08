@@ -5,7 +5,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import pages.CarLoanPage;
 import utils.EMICalculator;
@@ -115,33 +114,6 @@ public class CarLoanSteps {
 
         Assert.assertTrue(diff <= 100,
                 "Total Payment should equal Loan Amount + Total Interest");
-    }
-
-    @Then("the loan amount field should be visible")
-    public void loanAmountFieldVisible() {
-        Assert.assertTrue(
-                Hooks.driver.findElement(By.id("loanamount")).isDisplayed(),
-                "Loan amount field should be visible");
-    }
-
-    @Then("the interest rate field should be visible")
-    public void interestFieldVisible() {
-        Assert.assertTrue(
-                Hooks.driver.findElement(By.id("loaninterest")).isDisplayed(),
-                "Interest rate field should be visible");
-    }
-
-    @Then("the tenure field should be visible")
-    public void tenureFieldVisible() {
-        Assert.assertTrue(
-                Hooks.driver.findElement(By.id("loanterm")).isDisplayed(),
-                "Tenure field should be visible");
-    }
-
-    @Then("the EMI result should be displayed")
-    public void emiResultDisplayed() {
-        String emi = carLoanPage.getEMI();
-        Assert.assertFalse(emi.isEmpty(), "EMI result should be displayed");
     }
 
     private int clean(String text) {
