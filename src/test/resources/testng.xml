@@ -5,19 +5,19 @@
 
     <parameter name="browser" value="chrome"/>
 
-<!--    <test name="Car Loan Tests">-->
-<!--        <classes>-->
-<!--            <class name="tests.CarLoanTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Cucumber - Car Loan Tests">
+        <classes>
+            <class name="runners.testRunner"/>
+        </classes>
+    </test>
 
-    <test name="Home Loan Tests">
+    <test name="TestNG - Home Loan Tests">
         <classes>
             <class name="tests.HomeLoanTest"/>
         </classes>
     </test>
 
-    <test name="Loan Calculator UI Tests">
+    <test name="TestNG - Loan Calculator UI Tests">
         <classes>
             <class name="tests.LoanCalculatorUITest"/>
         </classes>

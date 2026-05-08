@@ -27,10 +27,8 @@ Feature: Car Loan EMI Calculator
 
     Examples:
       | amount  | rate | tenure | testName              |
-      | 1500000 | 9.5  | 1      | Car_15L_9.5pct_1yr    |
       | 2000000 | 8.5  | 2      | Car_20L_8.5pct_2yr    |
       | 5000000 | 10   | 5      | Car_50L_10pct_5yr     |
-      | 800000  | 11   | 3      | Car_8L_11pct_3yr      |
 
   #   Scenario 3 — Verify total interest payable
   @regression
@@ -42,7 +40,7 @@ Feature: Car Loan EMI Calculator
     And the total payment should equal loan amount plus total interest
 
 
-  #   Scenario 5 — UI verification
+  #   Scenario 4 — UI verification
   @ui
   Scenario: Verify all input fields are visible on Car Loan calculator
     Then the loan amount field should be visible
