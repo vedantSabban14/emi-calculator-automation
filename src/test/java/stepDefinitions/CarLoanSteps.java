@@ -5,16 +5,19 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import pages.CarLoanPage;
 import utils.EMICalculator;
 import utils.HelperUtils;
 
+import static hooks.Hooks.driver;
+
 public class CarLoanSteps {
 
     private CarLoanPage carLoanPage;
     private HelperUtils helper;
-
+    By carLoanCategory= By.xpath("//a[normalize-space()='Car Loan']");
     private String loanAmount;
     private String interestRate;
     private String tenure;
@@ -24,17 +27,18 @@ public class CarLoanSteps {
     private static final int TOLERANCE = 100;
 
     public CarLoanSteps() {
-        this.carLoanPage = new CarLoanPage(Hooks.driver, Hooks.wait);
-        this.helper      = new HelperUtils(Hooks.driver, Hooks.wait);
+        this.carLoanPage = new CarLoanPage(driver, Hooks.wait);
+        this.helper      = new HelperUtils(driver, Hooks.wait);
     }
 
     @Given("user is on the EMI calculator website")
     public void userIsOnEMICalculatorWebsite() {
-        System.out.println("Current URL: " + Hooks.driver.getCurrentUrl());
+        System.out.println("Current URL: " + driver.getCurrentUrl());
     }
 
     @And("user navigates to Car Loan section")
     public void userNavigatesToCarLoanSection() {
+        driver.findElement(carLoanCategory).click();
         System.out.println("On Car Loan section.");
     }
 

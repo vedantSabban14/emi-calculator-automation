@@ -29,7 +29,6 @@ public class CarLoanPage {
 
 //  Individual input actions
     public void enterLoanAmount(String amount) {
-        driver.findElement(carLoanCategory).click();
         helper.typeInBox(carLoanAmount, amount);
         System.out.println("Loan amount entered : " + amount);
     }
